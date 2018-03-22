@@ -71,9 +71,12 @@ collect2: error: ld returned 1 exit status
 显然，是找不到依赖的头文件内容。
 
 因此，需要将依赖的头文件一起编译，g++ main.cpp test.cpp -o main
+
 或者，按照以下查找对应的头文件
 1. g++ -c test.cpp -o test.o
 2. g++  main.cpp -o main -I ./ ./test.o  
+
+
 
 备注：g++编译参数
 ```
@@ -85,4 +88,12 @@ collect2: error: ld returned 1 exit status
 －I
 表示：编译程序按照-I指定的路进去搜索头文件。
 ```
+
+在使用-l参数编译时，查询的是库名，如liblua.so是库文件，库名为lua， 通常gcc/g++会到默认的g++安装的相关路径去搜索库，第三方库需要添加指定路径才能被搜索到，需要做如下设置：
+```
+1. 指定库文件搜索地址：export LD_LIBRARY_PATH=/xxxx/xxxx/lua/lib 或者 export LIBRARY_PATH=/xxxx/xxxx/lua/lib
+2. 指定头文件搜索地址：export CPLUS_INCLUDE_PATH=/xxx/xxx/include 或者 export C_INCLUDE_PATH=/xxx/xxx/include
+```
+然后再进行编译： g++ xxx.cpp -o xxx -llua
+
 
